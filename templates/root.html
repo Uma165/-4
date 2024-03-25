@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg bg-body-dark" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand text-warning fw-bold" href="{% url 'info:main' %}">Бикини-Боттом</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active text-dark" aria-current="page" href="{% url 'info:main' %}">Главная</a>
+        <a class="nav-link text-dark" href="{% url 'news:cruise_list' %}">Круизы</a>
+        <a class="nav-link text-dark" href="">Купить круиз</a>
+          <a class="nav-link text-dark" href="">Зарегистрироваться</a>
+          <a class="nav-link text-dark" href="">Вход</a>
+      </div>
+    </div>
+  </div>
+</nav>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
