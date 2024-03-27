@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'page',
-    'cruise_list'
+    'cruise_list',
+    'comment',
+    'appeal'
 ]
 
 MIDDLEWARE = [
@@ -122,6 +124,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

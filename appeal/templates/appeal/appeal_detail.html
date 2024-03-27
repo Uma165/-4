@@ -1,0 +1,31 @@
+{% extends 'root.html'%}
+{% block content %}
+<div class="ms-3 mt-3">
+  <h1>Обращение #{{ appeal.id }}</h1>
+  <p>ФИО: {{ appeal.contact }}</p>
+  <p>Электронная почта: {{ appeal.email }}</p>
+  <p>Тип заявки: {{ appeal.get_type_display }}</p>
+  <p>Статус заявки: {{ appeal.get_status_display }}</p>
+  {% if appeal.file %}
+    <p><a href="{{ appeal.file.url }}">Файл</a></p>
+  {% endif %}
+  <p>Дата отправки: {{ appeal.date|date:'d.m.Y' }}</p>
+  {% if appeal.answer %}
+    <div>
+      <h2>Ответ на обращение #{{ appeal.id }}</h2>
+      {% with appeal.answer as answer %}
+      <p>{{ answer.text }}</p>
+      <p>Автор: {{ answer.author.get_full_name }}</p>
+      <p>Дата отправки: {{ answer.send_date|date:'d.m.Y' }}</p>
+      {% if send_date != update_date %}
+        <p>Дата изменения: {{ answer.update_date }}</p>
+      {% endif %}
+      {% endwith %}
+    </div>
+  {% else %}
+  <div>
+    <h2>Ожидайте ответ на ваше обращение!</h2>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

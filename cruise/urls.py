@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('about/', include('page.urls', namespace='info')),
     path('cruise/', include('cruise_list.urls', namespace='news')),
+    path('appeal/', include('appeal.urls', namespace='appeal')),
 ]
 if settings.DEBUG:
     urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

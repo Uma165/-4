@@ -1,0 +1,10 @@
+{% extends 'root.html' %}
+{% block content %}
+
+<form method="post" class="mt-5 ms-5" enctype="multipart/form-data">
+    {% csrf_token %}
+        {{ form.as_p }}
+    <button type="submit">Отравить</button>
+</form>
+
+{% endblock %}
