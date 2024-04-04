@@ -8,3 +8,4 @@ class PageListView(ListView):
     model = Page
     context_object_name = 'page'
     template_name = 'main.html'
+

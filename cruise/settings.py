@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'page',
     'cruise_list',
     'comment',
+    'users.apps.UsersConfig',
+    # 'crispy_bootstrap5',
+    # 'crispy_forms',
     'appeal'
 ]
 
@@ -130,3 +133,8 @@ EMAIL_BACKEND ='django.core.mail.backends.console.EmailBackend'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+LOGIN_REDIRECT_URL = 'cruise_list'
+LOGIN_URL = 'login'
