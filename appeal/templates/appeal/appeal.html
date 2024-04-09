@@ -2,9 +2,19 @@
 {% block content %}
 
 <form method="post" class="mt-5 ms-5" enctype="multipart/form-data">
-    {% csrf_token %}
-        {{ form.as_p }}
-    <button type="submit">Отравить</button>
+  {% csrf_token %}
+  <h1>{{ appeal.id }}</h1>
+  <p>
+    {% if user.is_authenticated %}
+      Пользователь: <b>{{ user.get_full_name }}</b>
+    {% else %}
+      <a href="{% url 'login' %}">Войдите</a> или
+      <a href="{% url 'register' %}">зарегестрируйтесь</a>, чтобы сохранить историю ваших заявок
+    {% endif %}
+  </p>
+
+  {{ form.as_p }}
+  <button type="submit">Отравить</button>
 </form>
 
 {% endblock %}

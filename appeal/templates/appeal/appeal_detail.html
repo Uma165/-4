@@ -4,7 +4,10 @@
   <h1>Обращение #{{ appeal.id }}</h1>
   <p>ФИО: {{ appeal.contact }}</p>
   <p>Электронная почта: {{ appeal.email }}</p>
-  <p>Тип заявки: {{ appeal.get_type_display }}</p>
+  <p>Круиз: {{ appeal.cruise.title }}</p>
+  <p>Комната: {{ appeal.room.get_category_display }}</p>
+  <p>Цена: {{ appeal.room.price }}</p>
+  <p>Количество человек: {{ appeal.capacity }}</p>
   <p>Статус заявки: {{ appeal.get_status_display }}</p>
   {% if appeal.file %}
     <p><a href="{{ appeal.file.url }}">Файл</a></p>

@@ -1,12 +1,10 @@
 from django.urls import path
 
-from appeal.views import submit_appeal
-
-from appeal.views import AppealDetailView
+from appeal import views
 
 app_name = 'appeal'
 
 urlpatterns = [
-    path('', submit_appeal, name='appeals'),
-    path('view/<slug:uid>', AppealDetailView.as_view(), name='view')
+    path('submit', views.SubmitAppealView.as_view(), name='submit'),
+    path('view/<slug:uid>', views.AppealDetailView.as_view(), name='view')
 ]

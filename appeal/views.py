@@ -1,49 +1,49 @@
-import hashlib
-from datetime import datetime
-
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from django.shortcuts import render, redirect
+from django.views.generic import DetailView, View
 
 from appeal.forms import AppealForm
-from django.template.loader import render_to_string
-from django.urls import reverse
-from django.utils.html import strip_tags
-from django.views.generic import DetailView
-
 from appeal.models import Appeal
+from cruise_list.models import Cruise
 
 
-def submit_appeal(request):
-    if request.method == 'POST':
+class SubmitAppealView(View):
+    def get(self, request):
+        contact = email = ''
+        if request.user.is_authenticated:
+            email = request.user.email
+            contact = request.user.get_full_name()
+        cruise_id = request.GET.get('cruise')
+        cruise = Cruise.objects.get(pk=cruise_id) if cruise_id else None
+        form = AppealForm(initial={'email': email, 'contact': contact, 'cruise': cruise})
+        return render(request, 'appeal/appeal.html', {'form': form})
+
+    def post(self, request):
         form = AppealForm(request.POST, request.FILES)
+
         if form.is_valid():
-            appeal = form.save(commit=False)
-
-            while True:
-                uid = appeal.contact + appeal.type + appeal.сapacity + str(datetime.now().timestamp())
-                m = hashlib.sha256()
-                m.update(bytes(uid, encoding='utf-8'))
-                uid = m.hexdigest()
-
-                if  len(Appeal.objects.filter(uid=uid)) == 0:
-                    break
-
-            appeal.uid = uid
-
+            appeal = form.save(commit=True)
+            if request.user.is_authenticated:
+                appeal.user = request.user
             appeal.save()
 
-            html_message = render_to_string('message/notification_message.html', context={'type': appeal.type,
-                                                                                           'url': request.build_absolute_uri(f'/appeal/view/{uid}')})
+            html_message = render_to_string('message/notification_message.html', context={
+                    'cruise_title': appeal.cruise.title,
+                    'url': request.build_absolute_uri(f'/appeal/view/{appeal.uid}')
+                }
+            )
             message = strip_tags(html_message)
             send_mail(subject=f'Обращение №{appeal.id}',
                       message=message,
                       html_message=html_message,
                       from_email='admin@sity.ru',
                       recipient_list=[appeal.email])
-            return redirect(reverse('appeal:appeals'))
-    else:
-        form = AppealForm()
-    return render(request, 'appeal/appeal.html', {'form': form})
+            return redirect('appeal:view', uid=appeal.uid)
+
+        return render(request, 'appeal/appeal.html', {'form': form})
+
 
 
 class AppealDetailView(DetailView):

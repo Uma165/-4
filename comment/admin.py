@@ -5,8 +5,8 @@ from comment.models import Comment
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    readonly_fields = ('date_of_create', )
+    readonly_fields = ('date_created', )
     search_fields = ('text',)
-    list_filter = ('date_of_create',)
+    list_filter = ('date_created',)
     list_display = ('text',)
 

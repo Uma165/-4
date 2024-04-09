@@ -1,14 +1,41 @@
 {% extends "root.html" %}
-{#{% load crispy_forms_tags %}#}
 {% block content %}
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
-        </div>
-      </div>
-      <!-- Здесь будет форма -->
+<div class="content-section">
+  <div class="media">
+    <img class="rounded-circle account-img" height=100, width=100 src="{{ user.profile.image.url }}">
+    <div class="media-body">
+      <h2 class="account-heading">{{ user.username }}</h2>
+      <p class="text-secondary">{{ user.email }}</p>
     </div>
+  </div>
+  <div class="ms-3 mt-3">
+    <h6>Данные пользователя:</h6>
+    <br/>
+    <!-- Здесь будет форма -->
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        {{ form.as_p }}
+      </fieldset>
+      <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">Применить</button>
+        <a href="{% url 'cruise:cruise-list' %}?{{ cruise_url_params }}" class="btn btn-outline-info">
+          Посмтреть круизы по моим предпочтениям
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <div class="ms-3 mt-3">
+    <h6>Обращения:</h6>
+    <ul>
+    {% for appeal in appeals %}
+      <li>
+        {{ appeal.date|date:'d.m.Y' }}. Круиз: {{ appeal.cruise.title }} ({{ appeal.get_status_display }})
+        <a href="{% url 'appeal:view' uid=appeal.uid %}">Посмотреть</a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
 {% endblock content %}

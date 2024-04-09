@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('type', models.CharField(choices=[('Вечерний путь', 'Вечерний путь'), ('Моряк', 'Моряк'), ('Рай над морем', 'Рай над морем'), ('Воздушный корабль', 'Воздушный корабль')], max_length=128, verbose_name='Круиз')),
-                ('сapacity', models.CharField(max_length=60, verbose_name='Количество человек')),
+                ('capacity', models.CharField(max_length=60, verbose_name='Количество человек')),
                 ('datecruise', models.DateField(verbose_name='Дата отправки')),
                 ('contact', models.CharField(max_length=128, verbose_name='Контактая информация')),
                 ('email', models.EmailField(max_length=254, verbose_name='Электронная почта')),

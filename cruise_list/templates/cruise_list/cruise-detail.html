@@ -1,0 +1,71 @@
+{% extends 'root.html' %}
+{% block content %}
+<div class="container">
+<div class="row g-0">
+   <!-- Image -->
+   <a href="" class="mt-4 col-lg-8 col-md-12 col-12 bg-cover img-left-rounded">
+    <img src="{{ cruise.image.url }}" class="w-100"></a>
+   <div class="col-lg-4 col-md-12 col-12">
+      <!-- Card Body -->
+      <div class="card-body">
+         <a href="#" class="badge bg-warning mb-3">Круиз</a>
+         <h1 class="mb-4"> <a href="" class="text-inherit">
+            {{ cruise.title }}
+            </a>
+         </h1>
+         <p>{{ cruise.discription }}</p>
+         <!-- Media Content -->
+         <div class="row align-items-center g-0 mt-15">
+            <div class="col-auto">
+               <img src="" alt="" class="rounded-circle avatar-sm me-2">
+            </div>
+            <div class="col lh-1 ">
+               <h5 class="mb-1">Цена: {{ cruise.price }} руб.</h5>
+               <p class="fs-6 mb-0">Города: {{ cruise.cities }}</p>
+               <p class="fs-6 mb-0">Время круиза: {{ cruise.time }}</p>
+               <p class="fs-6 mb-0">&nbsp</p>
+               <p class="fs-6 mb-0">Классы кают для бронирования:
+                  <ul>
+                     {% for room in cruise.rooms.all %}
+                     <li class="row align-items-center g-0 mt-3">
+                        <p class="fs-6 mb-0">Категория: {{room.get_category_display}}</p>
+                        <p class="fs-6 mb-0">Количество: {{ room.count }}</p>
+                        <p class="fs-6 mb-0">Цена: {{ room.price }}</p>
+                     </li>
+                     {% endfor %}
+                  </ul>
+               </p>
+
+               <p class="mb-1">
+                  <a href="{% url 'appeal:submit' %}?cruise={{ cruise.id }}"
+                   class="btn btn-info mt-5">Забронировать</a>
+               </p>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% if user.is_authenticated %}
+<div class="row g-1">
+   <form method="post" action="{% url 'cruise:cruise-add-comment' cruise.pk %}" class="mt-4">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-secondary mt-3" style="background-color: #1A5686;">Отправить</button>
+   </form>
+</div>
+{% endif %}
+
+<div class="row g-8">
+   <h5>Коментарии:</h5>
+   {% for comment in cruise.comments.all %}
+   <div class="row g-8">
+      <div class="col-auto">{{ comment.date_created|date:'d.m.Y' }}</div>
+      <div class="col-auto">{{ comment.user.get_full_name }}</div>
+      <div class="col-auto">{{ comment.text }}</div>
+   </div>
+   {% endfor %}
+</div>
+
+</div>
+{% endblock %}
